@@ -1,0 +1,17 @@
+groups:
+- name: platform-alerts
+  rules:
+  - alert: KubernetesAPIServerLatencyHigh
+    expr: apiserver_request_duration_seconds_bucket{le="1"} < 0.95
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Kubernetes API latency is elevated"
+      description: "API server latency exceeds acceptable threshold."
+
+  - alert: NodeDiskSpaceCritical
+    expr: node_filesystem_avail_bytes / node_filesystem_size_bytes < 0.10
+    for: 10m
+    labels:
+      severity: critical
